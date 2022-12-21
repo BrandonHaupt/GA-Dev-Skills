@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Uncontrolled from "./components/Uncontrolled";
 
 export default function App() {
   const [skills, setSkills] = useState([{ skill: "JavaScript", level: 4 }])
@@ -9,11 +10,33 @@ export default function App() {
     level: "1"
   })
 
-  function addSkill() {
-    alert("ADD SKILL CLICKED");
+  function addSkill(event) {
+    // Prevents refreshing 
+    event.preventDefault()
+    
+    // alert("ADD SKILL CLICKED");
+    //* conosle.logs the form to see the form state
+    console.log(form)
+
+    //* takes the previeous skills and adds them into a new array
+    const newState = [...skills]
+
+    //* addes the new skills
+    newState.push(form)
+
+    // updates the states
+    setSkills(newState)
+
+    //! resets the form
+    setForm({
+      skill: "", 
+      level: "1"
+    })
+
   }
 
   function handleChange(event) {
+   
     // console.log(event.target) // targets what the function is attached to
     // console.log(event.target.value) // Grabs the value of what is being typed into the box'
 
@@ -31,8 +54,6 @@ export default function App() {
     //? const newState = {...form}
     //? newState[event.target.name] = event.target.value
     //? setForm(newState)
-
-   
     //console.log(form) // Shows us what the form is doing
 
     //! This does the same thing as above but in 1 line
@@ -41,6 +62,7 @@ export default function App() {
 
   return (
     <section>
+      <Uncontrolled/>
       <h2>DEV SKILLS</h2>
       <hr />
       {/* maps over the skills state and displays it on the screen with the article and divs */}
@@ -50,7 +72,7 @@ export default function App() {
         </article>
       ))}
       <hr />
-      <form>
+      <form onSubmit={addSkill}>
         <label>
           <span>SKILL</span>
           <input name="skill" value={form.skill} onChange={handleChange}/>
